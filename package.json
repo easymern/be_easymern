@@ -1,11 +1,12 @@
 {
   "name": "be_mernauth",
-
   "version": "0.1.0",
   "private": true,
   "description": "",
   "main": "server.js",
   "dependencies": {
+    "body-parser": "^1.20.0",
+    "express": "^4.17.3"
   },
   "scripts": {
     "start": "node server.js"
