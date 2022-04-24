@@ -12,11 +12,13 @@
     "mongoose": "^6.3.1"
   },
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "dev": "nodemon server.js"
   },
   "author": "JRR",
   "license": "JRR",
   "devDependencies": {
-    "dotenv": "^16.0.0"
+    "dotenv": "^16.0.0",
+    "nodemon": "^2.0.15"
   }
 }

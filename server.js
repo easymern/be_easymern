@@ -60,5 +60,4 @@ app.post("/home", (req, res) => {
 // set port, listen for requests
 app.listen(PORT, () => {
   console.log(`==> 🌎 Listening on port ${PORT}. Visit http://localhost:${PORT}/ in your browser.`);
-  console.log("coolio");
 });
