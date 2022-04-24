@@ -1,38 +1,64 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
+const jwt = require("jsonwebtoken");
+const routes = require("./app/routes")
 
-// const mongoose = require("mongoose");
+const DEFAULT_PORT = 8080
+
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+}
+
 // const routes = require("./routes");
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || DEFAULT_PORT;
 
 // Define middleware here
-app.use(bodyParser.urlencoded({extended: false})); // was true?
-app.use(bodyParser.json());
+const urlencodedParser =bodyParser.urlencoded({extended: false}); // was true?
+app.use(bodyParser.json(), urlencodedParser);
 
-// Serve up static assets (usually on heroku)
+// Connect to mongoDB
+const db = require("./app/models");
+const dbURI = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_CLUSTER}/${process.env.DB_DATABASE}?retryWrites=true&w=majority`
+
+db.mongoose
+  .connect(dbURI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  })
+  .then(() => {
+    console.log("Successfully connected to MongoDB.");
+    // initial();
+  })
+  .catch(err => {
+    console.error("Connection error", err);
+    process.exit();
+  });
+
+
+
+// TODO (check this) Serve up static assets (usually on heroku)
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
 }
 
-app.get("/home", (req, res) => {
-  res.json({
-    name: "Bill",
-    age: 99
-  })
-})
+// simple route
+app.get("/", (req, res) => {
+  res.json({ message: "Welcome to my stack" });
+});
+
+// routes
+app.use(routes);
+// require("./app/routes/auth.routes")
+
 
 app.post("/home", (req, res) => {
   console.log(req.body)
 })
 
-// Add routes, both API and view
-// app.use(routes);
-
-// Connect to the Mongo DB
-// mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/reactcms");
-
-// Start the API server
-app.listen(PORT, function() {
-  console.log(`🌎  ==> API Server now listening on PORT ${PORT}!`);
+// set port, listen for requests
+app.listen(PORT, () => {
+  console.log(`==> 🌎 Listening on port ${PORT}. Visit http://localhost:${PORT}/ in your browser.`);
+  console.log("coolio");
 });

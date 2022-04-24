@@ -5,12 +5,18 @@
   "description": "",
   "main": "server.js",
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "body-parser": "^1.20.0",
-    "express": "^4.17.3"
+    "express": "^4.17.3",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.3.1"
   },
   "scripts": {
     "start": "node server.js"
   },
   "author": "JRR",
-  "license": "JRR"
+  "license": "JRR",
+  "devDependencies": {
+    "dotenv": "^16.0.0"
+  }
 }
