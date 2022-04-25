@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const authController = require("../../controllers/auth.controller")
+const {verifyJWT} = require("../../middlewares");
 
 router
   .route("/home")
@@ -13,14 +14,8 @@ router
   .route("/login")
   .post(authController.login)
 
+router
+  .route("/getUsername")
+  .get(verifyJWT, authController.getUsername)
+
 module.exports = router;
-
-// module.exports = function(app) {
-//   app.use(function(req, res, next) {
-//     res.header(
-//       "Access-Control-Allow-Headers",
-//       "x-access-token, Origin, Content-Type, Accept"
-//     );
-//     next();
-//   });
-

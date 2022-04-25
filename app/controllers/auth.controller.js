@@ -3,6 +3,7 @@ const db = require("../models");
 const User = db.user;
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const { verifyJWT } = require("./../middlewares");
 
 exports.signup = async (req, res) => {
   const user = req.body;
@@ -64,4 +65,8 @@ exports.homeSweetHome = (req, res) => {
   res.json({
     name: "Justin"
   })
+}
+
+exports.getUsername = (req, res) => {
+  res.json({isLoggedIn: true, username: req.user.username})
 }
