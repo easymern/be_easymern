@@ -14,6 +14,10 @@ router
   .route("/login")
   .post(authController.login)
 
+// router
+//   .route("/logout")
+//   .get(authController.logout)
+
 router
   .route("/getUsername")
   .get(verifyJWT, authController.getUsername)

@@ -33,17 +33,18 @@ exports.signup = async (req, res) => {
 exports.login = (req, res) => {
   const userLoggingIn = req.body;
 
-  User.findOne({username: userLoggingIn.username})
+  // TODO switching between email and username is confusing.
+  User.findOne({email: userLoggingIn.username})
     .then(dbUser => {
       if (!dbUser) {
-        return res.status(404).send({message: "Invalid username or password dude."})
+        return res.status(404).send({message: "Username (or email) not found"})
       }
       bcrypt.compare(userLoggingIn.password, dbUser.password)
         .then(isCorrect => {
           if (isCorrect) {
             const payload = {
               id: dbUser._id,
-              username: dbUser.username,
+              username: dbUser.username
             }
             jwt.sign(
               payload,
@@ -51,15 +52,24 @@ exports.login = (req, res) => {
               {expiresIn: 86400},
               (err, token) => {
                 if (err) return res.status(500).send({message: err})
+                return res.json({
+                  message: "Success",
+                  token: "Bearer " + token
+                })
               }
             )
-            console.log(payload)
+            console.log("payload: ", payload)
           } else {
             return res.status(404).send({message: "Invalid username or password dude."})
           }
         })
     })
 }
+
+// exports.logout = (req, res) => {
+//   localStorage.removeItem("token");
+//   return res.status(200).send({message: "Logged out dude."})
+// }
 
 exports.homeSweetHome = (req, res) => {
   res.json({
