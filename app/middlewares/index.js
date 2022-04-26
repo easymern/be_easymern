@@ -1,5 +1,5 @@
-const verifyJWT = require("./verifyJWT");
+const verifyRegister = require("./verifyRegister");
 
 module.exports = {
-  verifyJWT,
+  verifyRegister
 };

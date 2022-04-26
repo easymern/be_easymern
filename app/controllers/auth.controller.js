@@ -1,35 +1,66 @@
-// Check here for implementing middleware node-js-jwt-auth-mongodb
 const db = require("../models");
-const User = db.user;
-const bcrypt = require("bcrypt");
+const User = db.User;
+const Role = db.Role
+
+const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const { verifyJWT } = require("./../middlewares");
 
 exports.register = async (req, res) => {
-  const user = req.body;
-  const takenUsername = await User.findOne({username: user.username})
-  const takenEmail = await User.findOne({email: user.email})
+  //  Create user object and save
+  const dbUser = await new User({
+    username: req.body.username.toLowerCase(),
+    email: req.body.email.toLowerCase(),
+    password: bcrypt.hashSync(req.body.password, 8)
+  });
 
-  // TODO move to middleware
-    // Check for duplicates
-    if (takenUsername || takenEmail ) {
-    res.json({message: "Username or email has already been taken"})
-  } else {
+  dbUser.save((err, dbUser) => {
+    if (err) {
+      res.status(500).send({message: err});
+      return;
+    }
 
-    //  Hash the password (lookup hashSync)
-    user.password = await bcrypt.hashSync(req.body.password, 10)
+    if (req.body.roles) {
+      Role.find(
+        {
+          name: {$in: req.body.roles}
+        },
+        (err, roles) => {
+          if (err) {
+            res.status(500).send({message: err});
+            return;
+          }
 
-    //  Create user object and save
-    const dbUser = await new User({
-      username: user.username.toLowerCase(),
-      email: user.email.toLowerCase(),
-      password: user.password
-    })
+          dbUser.roles = roles.map(role => role._id);
+          dbUser.save(err => {
+            if (err) {
+              res.status(500).send({message: err});
+              return;
+            }
 
-    await dbUser.save()
-    res.json({message: "Success homie"})
-  }
-}
+            res.send({message: "Use successfully registered."});
+          });
+        }
+      );
+    } else {
+      Role.findOne({name: "user"}, (err, role) => {
+        if (err) {
+          res.status(500).send({message: err});
+          return;
+        }
+
+        dbUser.roles = [role._id];
+        dbUser.save(err => {
+          if (err) {
+            res.status(500).send({message: err});
+            return;
+          }
+
+          res.send({message: "User successfully registered."});
+        });
+      });
+    }
+  });
+};
 
 exports.login = (req, res) => {
   const userLoggingIn = req.body;
