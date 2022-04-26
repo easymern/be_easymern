@@ -5,11 +5,12 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { verifyJWT } = require("./../middlewares");
 
-exports.signup = async (req, res) => {
+exports.register = async (req, res) => {
   const user = req.body;
   const takenUsername = await User.findOne({username: user.username})
   const takenEmail = await User.findOne({email: user.email})
 
+  // TODO move to middleware
     // Check for duplicates
     if (takenUsername || takenEmail ) {
     res.json({message: "Username or email has already been taken"})
@@ -63,23 +64,4 @@ exports.login = (req, res) => {
           }
         })
     })
-}
-
-// exports.logout = (req, res) => {
-//   localStorage.removeItem("token");
-//   return res.status(200).send({message: "Logged out dude."})
-// }
-
-exports.homeSweetHome = (req, res) => {
-  res.json({
-    name: "Justin"
-  })
-}
-
-exports.getUsername = (req, res) => {
-  res.json({isLoggedIn: true, username: req.user.username})
-}
-
-exports.isUserAuth = (req, res) => {
-  res.json({isLoggedIn: true})
 }
