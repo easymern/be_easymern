@@ -2,6 +2,8 @@ const express = require("express");
 // const mongoose = require("mongoose");
 const routes = require("./app/routes");
 const cors = require("cors");
+const db = require("./app/models");
+const Role = db.Role;
 
 const DEFAULT_PORT = 8080
 
@@ -22,7 +24,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // Connect to mongoDB
-const db = require("./app/models");
 const dbURI = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_CLUSTER}/${process.env.DB_DATABASE}?retryWrites=true&w=majority`
 
 db.mongoose
@@ -53,38 +54,38 @@ app.listen(PORT, () => {
 });
 
 
-// function initial() {
-//   Role.estimatedDocumentCount((err, count) => {
-//     if (!err && count === 0) {
-//       new Role({
-//         name: "user"
-//       }).save(err => {
-//         if (err) {
-//           console.log("error", err);
-//         }
-//
-//         console.log("added 'mod_user' to roles collection");
-//       });
-//
-//       new Role({
-//         name: "moderator"
-//       }).save(err => {
-//         if (err) {
-//           console.log("error", err);
-//         }
-//
-//         console.log("added 'moderator' to roles collection");
-//       });
-//
-//       new Role({
-//         name: "admin"
-//       }).save(err => {
-//         if (err) {
-//           console.log("error", err);
-//         }
-//
-//         console.log("added 'admin' to roles collection");
-//       });
-//     }
-//   });
-// }
+function initial() {
+  Role.estimatedDocumentCount((err, count) => {
+    if (!err && count === 0) {
+      new Role({
+        name: "user"
+      }).save(err => {
+        if (err) {
+          console.log("error", err);
+        }
+
+        console.log("added 'mod_user' to roles collection");
+      });
+
+      new Role({
+        name: "moderator"
+      }).save(err => {
+        if (err) {
+          console.log("error", err);
+        }
+
+        console.log("added 'moderator' to roles collection");
+      });
+
+      new Role({
+        name: "admin"
+      }).save(err => {
+        if (err) {
+          console.log("error", err);
+        }
+
+        console.log("added 'admin' to roles collection");
+      });
+    }
+  });
+}

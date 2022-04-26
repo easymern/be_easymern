@@ -22,7 +22,7 @@ exports.register = async (req, res) => {
     if (req.body.roles) {
       Role.find(
         {
-          name: {$in: req.body.roles}
+          name: {$in: req.body.roles.toLowerCase()}
         },
         (err, roles) => {
           if (err) {
@@ -37,7 +37,7 @@ exports.register = async (req, res) => {
               return;
             }
 
-            res.send({message: "Use successfully registered."});
+            res.send({message: "User successfully registered."});
           });
         }
       );
@@ -74,8 +74,7 @@ exports.login = (req, res) => {
       }
 
       if (!user) {
-        return;
-        res.status(404).send({message: "User not found."});
+        return res.status(404).send({message: "User not found."});
       }
 
       let passwordCheck = bcrypt.compareSync(
