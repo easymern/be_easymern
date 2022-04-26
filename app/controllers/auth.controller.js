@@ -63,36 +63,47 @@ exports.register = async (req, res) => {
 };
 
 exports.login = (req, res) => {
-  const userLoggingIn = req.body;
-
-  // TODO switching between email and username is confusing.
-  User.findOne({email: userLoggingIn.username})
-    .then(dbUser => {
-      if (!dbUser) {
-        return res.status(404).send({message: "Username (or email) not found"})
+  User.findOne({
+    username: req.body.username
+  })
+    .populate("roles", "-__v")
+    .exec((err, user) => {
+      if (err) {
+        res.status(500).send({message: err});
+        return;
       }
-      bcrypt.compare(userLoggingIn.password, dbUser.password)
-        .then(isCorrect => {
-          if (isCorrect) {
-            const payload = {
-              id: dbUser._id,
-              username: dbUser.username
-            }
-            jwt.sign(
-              payload,
-              process.env.JWT_SECRET,
-              {expiresIn: 86400},
-              (err, token) => {
-                if (err) return res.status(500).send({message: err})
-                return res.json({
-                  message: "Success",
-                  token: "Bearer " + token
-                })
-              }
-            )
-          } else {
-            return res.status(404).send({message: "Invalid username or password dude."})
-          }
-        })
-    })
-}
+
+      if (!user) {
+        return;
+        res.status(404).send({message: "User not found."});
+      }
+
+      let passwordCheck = bcrypt.compareSync(
+        req.body.password,
+        user.password
+      );
+
+      if (!passwordCheck) {
+        return res.status(401).send({accessToken: null, message: "Invalid password"});
+      }
+
+      let token = jwt.sign({id: user.id}, process.env.JWT_SECRET, {
+        expiresIn: 86400
+      });
+
+      let authorities = []
+
+      for (let i = 0; i < user.roles.length; i++) {
+        authorities.push("ROLE_" + user.roles[i].name.toUpperCase());
+      }
+
+      res.status(200).send({
+        id: user._id,
+        username: user.username,
+        email: user.email,
+        roles: authorities,
+        accessToken: token
+      });
+      console.log("token: ", token);
+    });
+};
