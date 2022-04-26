@@ -58,7 +58,6 @@ exports.login = (req, res) => {
                 })
               }
             )
-            console.log("payload: ", payload)
           } else {
             return res.status(404).send({message: "Invalid username or password dude."})
           }
@@ -79,4 +78,8 @@ exports.homeSweetHome = (req, res) => {
 
 exports.getUsername = (req, res) => {
   res.json({isLoggedIn: true, username: req.user.username})
+}
+
+exports.isUserAuth = (req, res) => {
+  res.json({isLoggedIn: true})
 }

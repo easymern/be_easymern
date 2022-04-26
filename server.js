@@ -1,8 +1,7 @@
 const express = require("express");
-const bodyParser = require("body-parser");
-const mongoose = require("mongoose");
-const jwt = require("jsonwebtoken");
-const routes = require("./app/routes")
+// const mongoose = require("mongoose");
+const routes = require("./app/routes");
+const cors = require("cors");
 
 const DEFAULT_PORT = 8080
 
@@ -10,13 +9,17 @@ if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config();
 }
 
-// const routes = require("./routes");
 const app = express();
 const PORT = process.env.PORT || DEFAULT_PORT;
 
+const corsOptions = {
+  origin: `http://localhost:${PORT}`
+}
+
 // Define middleware here
-const urlencodedParser =bodyParser.urlencoded({extended: false}); // was true?
-app.use(bodyParser.json(), urlencodedParser);
+app.use(cors(corsOptions));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 // Connect to mongoDB
 const db = require("./app/models");
@@ -36,28 +39,52 @@ db.mongoose
     process.exit();
   });
 
-
-
 // TODO (check this) Serve up static assets (usually on heroku)
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
 }
 
-// simple route
-app.get("/", (req, res) => {
-  res.json({ message: "Welcome to my stack" });
-});
-
 // routes
 app.use(routes);
-// require("./app/routes/auth.routes")
-
-
-app.post("/home", (req, res) => {
-  console.log(req.body)
-})
 
 // set port, listen for requests
 app.listen(PORT, () => {
   console.log(`==> 🌎 Listening on port ${PORT}. Visit http://localhost:${PORT}/ in your browser.`);
 });
+
+
+// function initial() {
+//   Role.estimatedDocumentCount((err, count) => {
+//     if (!err && count === 0) {
+//       new Role({
+//         name: "user"
+//       }).save(err => {
+//         if (err) {
+//           console.log("error", err);
+//         }
+//
+//         console.log("added 'mod_user' to roles collection");
+//       });
+//
+//       new Role({
+//         name: "moderator"
+//       }).save(err => {
+//         if (err) {
+//           console.log("error", err);
+//         }
+//
+//         console.log("added 'moderator' to roles collection");
+//       });
+//
+//       new Role({
+//         name: "admin"
+//       }).save(err => {
+//         if (err) {
+//           console.log("error", err);
+//         }
+//
+//         console.log("added 'admin' to roles collection");
+//       });
+//     }
+//   });
+// }

@@ -22,4 +22,8 @@ router
   .route("/getUsername")
   .get(verifyJWT, authController.getUsername)
 
+router
+  .route("/isUserAuth")
+  .get(verifyJWT, authController.isUserAuth)
+
 module.exports = router;
