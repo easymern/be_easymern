@@ -6,6 +6,7 @@ const db = require("./app/models");
 const Role = db.Role;
 
 const DEFAULT_PORT = 8080
+const CORS_PORT = 3000
 
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config();
@@ -15,7 +16,7 @@ const app = express();
 const PORT = process.env.PORT || DEFAULT_PORT;
 
 const corsOptions = {
-  origin: `http://localhost:${PORT}`
+  origin: `http://localhost:${CORS_PORT}`
 }
 
 // Define middleware here
