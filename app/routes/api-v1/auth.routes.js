@@ -1,7 +1,6 @@
 const router = require("express").Router();
 const authController = require("../../controllers/auth.controller")
-const { verifyRegister } = require("../../middlewares")
-
+const { verifyRegister } = require("../../middleware")
 
 router.use((req, res, next) => {
   res.header(

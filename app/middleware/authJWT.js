@@ -3,6 +3,7 @@ const db = require("../models");
 const User = db.User;
 const Role = db.Role;
 
+
 const verifyToken = (req, res, next) => {
   let token = req.headers["x-access-token"];
   console.log("headers", req.headers)

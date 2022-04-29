@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { authJWT } = require("../../middlewares");
+const { authJWT } = require("../../middleware");
 const userController = require("../../controllers/user.controller")
 
 
