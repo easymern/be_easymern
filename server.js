@@ -8,7 +8,7 @@ const fs = require("fs");
 const Role = db.Role;
 
 const DEFAULT_PORT = 8080
-const CORS_PORT = 3000
+// const CORS_PORT = 3000
 
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config();
@@ -17,12 +17,23 @@ if (process.env.NODE_ENV !== 'production') {
 const app = express();
 const PORT = process.env.PORT || DEFAULT_PORT;
 
-const corsOptions = {
-  origin: `http://localhost:${CORS_PORT}`
-}
+// const corsOptions = {
+//   origin: `http://localhost:${CORS_PORT}`
+// }
+
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', 'true');
+  res.setHeader(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+  );
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE');
+
+  next();
+});
 
 // Define middleware here
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 

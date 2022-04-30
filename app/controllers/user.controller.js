@@ -13,3 +13,9 @@ exports.adminBoard = (req, res) => {
 exports.moderatorBoard = (req, res) => {
   res.status(200).send("Moderator Content");
 }
+
+// Simple check for admin
+exports.isAdmin = (req, res) => {
+  console.log(200)
+  res.status(200)
+}

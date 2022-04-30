@@ -42,4 +42,14 @@ router
     userController.adminBoard
   );
 
+router
+  .route("/check/admin")
+  .get(
+    [
+      authJWT.verifyToken,
+      authJWT.isAdmin
+    ],
+    userController.isAdmin
+  )
+
 module.exports = router;
