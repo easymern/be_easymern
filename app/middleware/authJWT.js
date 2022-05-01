@@ -6,7 +6,6 @@ const Role = db.Role;
 
 const verifyToken = (req, res, next) => {
   let token = req.headers["x-access-token"];
-  console.log("headers", req.headers)
 
   if (!token) {
     return res.status(403).send({message: "No token provided."});
@@ -14,15 +13,18 @@ const verifyToken = (req, res, next) => {
 
   jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
     if (err) {
+      // console.log("error confirming token")
       return res.status(401).send({message: "Unauthorised."});
     }
+    // console.log("token confirmed")
     req.userId = decoded.id;
     next();
   });
 };
 
 const isAdmin = (req, res, next) => {
-  User.findById(req.user.id).exec((err, user) => {
+  console.log(req.userId)
+  User.findById(req.userId).exec((err, user) => {
     if (err) {
       res.status(500).send({message: err });
       return;
@@ -53,7 +55,7 @@ const isAdmin = (req, res, next) => {
 
 const isModerator = (req, res, next) => {
   // TODO merge with above. DRY!
-  User.findById(req.user.id).exec((err, user) => {
+  User.findById(req.userId).exec((err, user) => {
     if (err) {
       res.status(500).send({message: err });
       return;
@@ -71,7 +73,7 @@ const isModerator = (req, res, next) => {
 
         for (let i = 0; i < roles.length; i++) {
           // TODO replace with constant.
-          if (roles[i].name === "moderator") {
+          if (roles[i].name === "moderator" || roles[i].name === "admin") {
             next();
             return;
           }

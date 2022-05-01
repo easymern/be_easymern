@@ -1,17 +1,17 @@
 exports.allAccess = (req, res) => {
-  res.status(200).send("Public Content.");
+  res.status(200).send({message: "public content"});
 }
 
 exports.userBoard = (req, res) => {
-  res.status(200).send("User Content.");
+  res.status(200).send({message: "user content"});
 }
 
 exports.adminBoard = (req, res) => {
-  res.status(200).send("Admin Content.");
+  res.status(200).send({message: "admin content"});
 }
 
 exports.moderatorBoard = (req, res) => {
-  res.status(200).send("Moderator Content");
+  res.status(200).send({message: "mod content"});
 }
 
 // Simple check for admin
