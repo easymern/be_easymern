@@ -1,7 +1,7 @@
 # [be_easymern](https://github.com/easymern/be_easymern)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-[![License: MIT](easymern_small_50.png)](https://opensource.org/licenses/MIT)
+[![License: MIT](easymern_alt_50.png)](https://opensource.org/licenses/MIT)
 
 ## Table of Contents
 > - [Description](#Description)
