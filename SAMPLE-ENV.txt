@@ -1,0 +1,12 @@
+# To quickly get up and running create a NEW .env file in the root of your project with the following:
+
+# MONGODB Access Info
+# Get this info from your mongodb by going to Altas>Connect>Connect to your application
+# mongodb+srv://<DB_USER>:<DB_PASS>@<DB_CLUSTER>/<DB_DATABASE>?retryWrites=true&w=majority
+
+DB_USER=
+DB_PASS=
+DB_CLUSTER=
+DB_DATABASE=
+
+JWT_SECRET=<make one up, greater than 32chars of random letters, numbers, and punctuation>
