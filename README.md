@@ -65,7 +65,7 @@ This project needs your help :) Jump in at the deep end with a fork and bash awa
 No tests developed as at 02 May 2022
 
 ## Support or Contact
-Drop me a line with any general questions.
+Drop the team a line with any general questions.
 
 [Discord...](https://discord.gg/Sa53aU9fE3)
 
