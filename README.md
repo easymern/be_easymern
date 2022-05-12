@@ -64,8 +64,9 @@ This project needs your help :) Jump in at the deep end with a fork and bash awa
 
 No tests developed as at 02 May 2022
 
-## Questions
+## Support or Contact
+Drop me a line with any general questions.
 
-Please refer any questions to [![JayArghArgh](https://img.shields.io/badge/Dev-JayArghArgh-yellow)](https://github.com/JayArghArgh) via jayarghargh@gmail.com.
+[Discord...](https://discord.gg/Sa53aU9fE3)
 
-[![Anurag's github stats](https://github-readme-stats.vercel.app/api?username=JayArghArgh&theme=solarized-light)](https://github.com/JayArghArgh/github-readme-stats)
+Specific issues should be raised via the repository issues after checking the wikis.
